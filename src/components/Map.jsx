@@ -18,7 +18,10 @@ const DEFAULT_CENTER = {
   longitude: 55.2708
 };
 
-const Map = ({ location }) => {
+const Map = ({ location, disabled = false }) => {
+  // If disabled, return null to prevent rendering
+  if (disabled) return null;
+
   const center = location || DEFAULT_CENTER;
   
   return (
