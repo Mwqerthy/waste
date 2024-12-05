@@ -1,10 +1,10 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
 
-interface ImageCaptureProps {
+type ImageCaptureProps = {
   image: string;
   onCameraClick: () => void;
-}
+};
 
 const ImageCapture: React.FC<ImageCaptureProps> = ({ image, onCameraClick }) => {
   return (
