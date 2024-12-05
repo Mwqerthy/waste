@@ -1,12 +1,7 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
 
-type ImageCaptureProps = {
-  image: string;
-  onCameraClick: () => void;
-};
-
-const ImageCapture: React.FC<ImageCaptureProps> = ({ image, onCameraClick }) => {
+function ImageCapture({ image, onCameraClick }) {
   return (
     <div>
       {image ? (
@@ -31,6 +26,6 @@ const ImageCapture: React.FC<ImageCaptureProps> = ({ image, onCameraClick }) => 
       )}
     </div>
   );
-};
+}
 
 export default ImageCapture;
