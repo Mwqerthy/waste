@@ -30,6 +30,9 @@ const Camera = ({ onCapture, onClose }) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             className="w-full rounded-lg"
+            videoConstraints={{
+              facingMode: "environment", // Request the back camera
+            }}
           />
           <button
             onClick={capture}
