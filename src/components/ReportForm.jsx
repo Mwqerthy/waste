@@ -124,7 +124,10 @@ const ReportForm = () => {
           </button>
         )}
 
-        <Map location={formState.location} />
+        <Map 
+  location={formState.location} 
+  disabled={formState.cameraMode} 
+/>
         <LocationPicker 
           location={formState.location}
           onGetLocation={handleGetLocation}
