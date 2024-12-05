@@ -16,6 +16,7 @@ const ReportForm = () => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isCameraActive, setIsCameraActive] = useState(false);
 
   const handleGetLocation = async () => {
     try {
@@ -26,7 +27,6 @@ const ReportForm = () => {
         toast.error('This service is only available within the UAE');
         return;
       }
-
       setLocation({ latitude, longitude });
       toast.success('Location captured successfully');
     } catch (error) {
@@ -40,7 +40,6 @@ const ReportForm = () => {
       toast.error('Please fill in all fields');
       return;
     }
-
     setLoading(true);
     try {
       await sendEmail({
@@ -68,19 +67,18 @@ const ReportForm = () => {
         image={image} 
         onCameraClick={() => setShowCamera(true)} 
       />
-
-      <Map location={location} />
-
-      <LocationPicker 
-        location={location}
-        onGetLocation={handleGetLocation}
-      />
-
+      <div className={isCameraActive ? 'pointer-events-none opacity-50' : ''}>
+        <Map location={location} />
+        <LocationPicker 
+          location={location}
+          onGetLocation={handleGetLocation}
+        />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6"
+        className={`space-y-6 ${isCameraActive ? 'pointer-events-none opacity-50' : ''}`}
       >
         <textarea
           value={description}
@@ -89,7 +87,6 @@ const ReportForm = () => {
           className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
           rows={4}
         />
-
         <input
           type="email"
           value={email}
@@ -97,10 +94,9 @@ const ReportForm = () => {
           placeholder="Your email address"
           className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
         />
-
         <motion.button
           type="submit"
-          disabled={loading}
+          disabled={loading || isCameraActive}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-all disabled:opacity-50 disabled:hover:scale-100"
@@ -109,7 +105,6 @@ const ReportForm = () => {
           {loading ? 'Submitting...' : 'Submit Report'}
         </motion.button>
       </motion.div>
-
       {showCamera && (
         <Camera
           onCapture={(capturedImage) => {
@@ -117,6 +112,7 @@ const ReportForm = () => {
             setShowCamera(false);
           }}
           onClose={() => setShowCamera(false)}
+          onCameraActive={setIsCameraActive}
         />
       )}
     </form>
